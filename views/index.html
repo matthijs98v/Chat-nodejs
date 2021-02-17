@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Chat</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style/style.css">
+	
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  </head>
+  <body>
+	<div id="status"></div>
+	<div id="users"></div>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+	
+	<!--Socket.io script -->
+	<script>
+		$(function() {
+			var name = window.prompt('Please enter your name', 'User');
+			var socket = io();
+			
+			socket.emit('name', name);
+			
+			
+			console.log(socket.id);
+			
+			$('form').submit(function(e) {
+				e.preventDefault();
+				socket.emit('chat message', $('#m').val());
+				$('#m').val('');
+				return false;
+			});
+			
+			socket.on('chat message', function(msg){
+				$('#messages').append($('<li>').html('<b>'+msg[0]+': </b>'+msg[1]));
+			});
+			
+			socket.on('con', function(msg){
+				$('#messages').append($('<li>').html(msg));
+			});
+			
+			socket.on('people', function(msg){
+				$('#status').html('<b>'+msg+'</b>');
+			});
+			
+			socket.on('dis', function(msg){
+				$('#messages').append($('<li>').html(msg));
+			});
+			
+			socket.on('users', function(users){
+				console.log(users);
+			});
+		});
+	  
+	</script>
+	
+  </body>
+</html>

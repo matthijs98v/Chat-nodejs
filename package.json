@@ -1,0 +1,15 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "Yhis is a chat app test",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodejs start server.js"
+  },
+  "author": "Matthijs Verheijen",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
